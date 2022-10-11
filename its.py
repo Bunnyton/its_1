@@ -204,7 +204,7 @@ def to_fomot(byte_arr):
     return res_arr_keys, res_arr_values
 
 
-def print_4b3t(arr, arr_str, count_in_str=9):
+def print_triple(arr, arr_str, count_in_str=9):
     for i in range(len(arr_str)//count_in_str):
         for j in range(count_in_str):
             print("".join([arr[count_in_str * i + j], "  "]), end="")
@@ -249,8 +249,8 @@ print_bytes_arr(mult_arr, 8)
 
 print("\ntask3 (4b3t):")
 code_4b3t_arr, code_4b3t_arr_str = to_4b3t(mult_arr)
-print_4b3t(code_4b3t_arr, code_4b3t_arr_str)
+print_triple(code_4b3t_arr, code_4b3t_arr_str)
 
 print("\ntask4 (fomot):")
 code_fomot_arr, code_fomot_arr_str = to_fomot(mult_arr)
-print_4b3t(code_fomot_arr, code_fomot_arr_str)
+print_triple(code_fomot_arr, code_fomot_arr_str)
