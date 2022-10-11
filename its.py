@@ -172,10 +172,12 @@ def to_4b3t(byte_arr):
 
     res_arr_keys = list()
     res_arr_values = list()
+    summ_arr = list()
     summ = 0
     for i in range(len(byte_str)//4):
         res_arr_keys.append(byte_str[i * 4: (i + 1) * 4])
 
+        summ_arr.append(summ)
         if summ <= 0:
             res_arr_values.append(code_4b3t[0]
                                   [res_arr_keys[-1]])
@@ -184,7 +186,7 @@ def to_4b3t(byte_arr):
                                   [res_arr_keys[-1]])
         summ += sum(res_arr_values[-1])
 
-    return res_arr_keys, res_arr_values
+    return res_arr_keys, res_arr_values, summ_arr
 
 
 def to_fomot(byte_arr):
@@ -192,6 +194,7 @@ def to_fomot(byte_arr):
 
     res_arr_keys = list()
     res_arr_values = list()
+    summ_arr = list()
     summ = 0
     for i in range(len(byte_str)//4):
         res_arr_keys.append(byte_str[i * 4: (i + 1) * 4])
@@ -199,13 +202,20 @@ def to_fomot(byte_arr):
         res_arr_values.append(code_fomot[summ + 1]
                                   [res_arr_keys[-1]])
 
+        summ_arr.append(summ)
         summ += sum(res_arr_values[-1])
 
-    return res_arr_keys, res_arr_values
+    return res_arr_keys, res_arr_values, summ_arr
 
 
-def print_triple(arr, arr_str, count_in_str=9):
+def print_triple(arr, arr_str, summ_arr, count_in_str=9):
+
     for i in range(len(arr_str)//count_in_str):
+
+        for j in range(count_in_str):
+            print("".join(["(", str(summ_arr[count_in_str * i + j]), ")   "]), end="")
+        print()
+
         for j in range(count_in_str):
             print("".join([arr[count_in_str * i + j], "  "]), end="")
         print()
@@ -248,9 +258,9 @@ mult_arr = multiplex(bytes_arr1, bytes_arr2, d)
 print_bytes_arr(mult_arr, 8)
 
 print("\ntask3 (4b3t):")
-code_4b3t_arr, code_4b3t_arr_str = to_4b3t(mult_arr)
-print_triple(code_4b3t_arr, code_4b3t_arr_str)
+code_4b3t_arr, code_4b3t_arr_str, summ_arr_4b3t = to_4b3t(mult_arr)
+print_triple(code_4b3t_arr, code_4b3t_arr_str, summ_arr_4b3t)
 
 print("\ntask4 (fomot):")
-code_fomot_arr, code_fomot_arr_str = to_fomot(mult_arr)
-print_triple(code_fomot_arr, code_fomot_arr_str)
+code_fomot_arr, code_fomot_arr_str, summ_arr_fomot = to_fomot(mult_arr)
+print_triple(code_fomot_arr, code_fomot_arr_str, summ_arr_fomot)
