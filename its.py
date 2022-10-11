@@ -40,6 +40,76 @@ code_4b3t = [{
              "1111": [-1, -1, -1]
          }]
 
+code_fomot = [{
+            "0000": [-1, +1, +1],
+            "0001": [-1, +1,  0],
+            "0010": [+1, -1,  0],
+            "0011": [+1,  0,  0],
+            "0100": [-1,  0, +1],
+            "0101": [+1, +1, +1],
+            "0110": [+1,  0, +1],
+            "0111": [+1,  0, -1],
+            "1000": [ 0, +1, +1],
+            "1001": [ 0, +1,  0],
+            "1010": [+1, -1, +1],
+            "1011": [+1, +1,  0],
+            "1100": [ 0,  0, +1],
+            "1101": [ 0, +1, -1],
+            "1110": [ 0, -1, +1],
+            "1111": [+1, +1, -1]
+    }, {
+            "0000": [-1,  0,  0],
+            "0001": [-1, +1,  0],
+            "0010": [+1,  -1, 0],
+            "0011": [+1, -1, -1],
+            "0100": [-1,  0, +1],
+            "0101": [-1, +1, -1],
+            "0110": [+1,  0, +1],
+            "0111": [+1,  0, -1],
+            "1000": [ 0, +1, +1],
+            "1001": [ 0, -1,  0],
+            "1010": [+1, -1, +1],
+            "1011": [+1, +1,  0],
+            "1100": [-1, -1, +1],
+            "1101": [ 0, +1, -1],
+            "1110": [ 0, -1, +1],
+            "1111": [ 0,  0, -1]
+    }, {
+            "0000": [-1, +1, +1],
+            "0001": [-1, +1,  0],
+            "0010": [+1, -1,  0],
+            "0011": [+1,  0,  0],
+            "0100": [-1,  0, +1],
+            "0101": [-1, +1, -1],
+            "0110": [-1,  0, -1],
+            "0111": [+1,  0, -1],
+            "1000": [-1, -1,  0],
+            "1001": [ 0, +1,  0],
+            "1010": [+1, -1, +1],
+            "1011": [ 0, -1, -1],
+            "1100": [ 0,  0, +1],
+            "1101": [ 0, +1, -1],
+            "1110": [ 0, -1, +1],
+            "1111": [+1, +1, -1]
+    }, {
+            "0000": [-1,  0,  0],
+            "0001": [-1, +1,  0],
+            "0010": [+1, -1,  0],
+            "0011": [+1, -1, -1],
+            "0100": [-1,  0, +1],
+            "0101": [-1, +1, -1],
+            "0110": [-1,  0, -1],
+            "0111": [+1,  0, -1],
+            "1000": [-1, -1,  0],
+            "1001": [ 0, -1,  0],
+            "1010": [-1, -1, +1],
+            "1011": [ 0, -1, -1],
+            "1100": [-1, -1, +1],
+            "1101": [ 0, +1, -1],
+            "1110": [ 0, +1, -1],
+            "1111": [ 0,  0, -1]
+    }
+                                    ]
 
 def to_byte_sequence(val):
     bytes = list()
@@ -117,6 +187,23 @@ def to_4b3t(byte_arr):
     return res_arr_keys, res_arr_values
 
 
+def to_fomot(byte_arr):
+    byte_str = "".join(byte_arr)
+
+    res_arr_keys = list()
+    res_arr_values = list()
+    summ = 0
+    for i in range(len(byte_str)//4):
+        res_arr_keys.append(byte_str[i * 4: (i + 1) * 4])
+
+        res_arr_values.append(code_fomot[summ + 1]
+                                  [res_arr_keys[-1]])
+
+        summ += sum(res_arr_values[-1])
+
+    return res_arr_keys, res_arr_values
+
+
 def print_4b3t(arr, arr_str, count_in_str=9):
     for i in range(len(arr_str)//count_in_str):
         for j in range(count_in_str):
@@ -157,9 +244,13 @@ print("task1:")
 print_bytes_arr(bytes_arr1)
 
 print("\ntask2:")
-mutl_arr = multiplex(bytes_arr1, bytes_arr2, d)
-print_bytes_arr(mutl_arr, 8)
+mult_arr = multiplex(bytes_arr1, bytes_arr2, d)
+print_bytes_arr(mult_arr, 8)
 
-print("\ntask3:")
-code_4b3t_arr, code_4b3t_arr_str = to_4b3t(mutl_arr)
-print(print_4b3t(code_4b3t_arr, code_4b3t_arr_str))
+print("\ntask3 (4b3t):")
+code_4b3t_arr, code_4b3t_arr_str = to_4b3t(mult_arr)
+print_4b3t(code_4b3t_arr, code_4b3t_arr_str)
+
+print("\ntask4 (fomot):")
+code_fomot_arr, code_fomot_arr_str = to_fomot(mult_arr)
+print_4b3t(code_fomot_arr, code_fomot_arr_str)
